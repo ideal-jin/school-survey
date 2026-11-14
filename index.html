@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>취학관리 협력체계 개선(안) 전문가 의견 조사</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --bg:#f4f5f7; --card:#fff; --ink:#1d2433; --ink2:#4a5468; --muted:#7a8396;
+  --line:#e2e5eb; --line2:#eef0f4; --brand:#1f4e79; --brand-soft:#e8f0f8; --brand-ink:#163a5c;
+  --accent:#0f7b6c; --warn:#b4570f; --warn-soft:#fff4e8; --err:#c0392b; --err-soft:#fdecea;
+  --a:#eef3ea; --b:#e6eef9; --c:#fbf1de;
+  color-scheme: light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:84px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Pretendard,"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;font-size:16px;line-height:1.65;word-break:keep-all;overflow-wrap:anywhere}
+button,input,textarea,select{font:inherit;color:inherit}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px}
+
+/* top bar */
+.topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;align-items:center;gap:14px;height:60px}
+.topbar .t{font-weight:700;font-size:15px;color:var(--brand-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
+.prog{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink2);white-space:nowrap}
+.bar{width:140px;height:8px;background:var(--line2);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
+.saved{font-size:12px;color:var(--muted);min-width:64px;text-align:right}
+.nav{display:flex;gap:6px;overflow-x:auto;padding:0 0 10px;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav a{flex:none;font-size:13px;padding:4px 10px;border-radius:99px;background:var(--line2);color:var(--ink2);text-decoration:none}
+.nav a.done{background:#dff1ec;color:var(--accent)}
+@media (max-width:640px){.bar{width:70px}.saved{display:none}.topbar .t{font-size:14px}}
+
+/* hero */
+.hero{background:var(--brand);color:#fff;padding:40px 0 36px}
+.hero .kicker{font-size:14px;opacity:.85;letter-spacing:.02em}
+.hero h1{font-size:28px;line-height:1.35;margin:8px 0 18px;font-weight:800}
+.hero p{margin:0 0 10px;opacity:.95;max-width:760px}
+.hero ol{margin:0 0 12px;padding-left:22px}
+.hero .sign{margin-top:18px;font-size:14px;opacity:.85}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.meta span{background:rgba(255,255,255,.14);border-radius:8px;padding:6px 10px;font-size:13px}
+@media (max-width:640px){.hero h1{font-size:22px}}
+
+/* sections */
+section.part{margin:28px 0}
+.part-h{display:flex;align-items:baseline;gap:10px;margin:0 0 6px}
+.part-h .num{font-weight:800;color:var(--brand);font-size:22px}
+.part-h h2{margin:0;font-size:22px;font-weight:800;line-height:1.35}
+.lead{color:var(--ink2);margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;margin:0 0 16px}
+@media (max-width:640px){.card{padding:16px}}
+.q-h{font-weight:700;font-size:17px;margin:0 0 4px;line-height:1.5}
+.q-h .qn{color:var(--brand);margin-right:6px}
+.q-sub{color:var(--ink2);font-size:14.5px;margin:0 0 14px}
+.req{color:var(--err);font-weight:700;margin-left:2px}
+.hint{font-size:13px;color:var(--muted)}
+
+/* reference blocks */
+details.ref{border:1px solid var(--line);border-radius:12px;background:#fafbfc;margin:0 0 16px}
+details.ref>summary{cursor:pointer;padding:12px 16px;font-weight:700;color:var(--brand-ink);list-style:none;display:flex;align-items:center;gap:8px}
+details.ref>summary::-webkit-details-marker{display:none}
+details.ref>summary::before{content:"▸";transition:transform .15s;color:var(--brand)}
+details.ref[open]>summary::before{transform:rotate(90deg)}
+details.ref .body{padding:0 16px 16px}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.t{border-collapse:collapse;width:100%;font-size:14px;min-width:560px;background:#fff}
+table.t th,table.t td{border:1px solid var(--line);padding:8px 10px;vertical-align:top;text-align:left}
+table.t th{background:var(--brand);color:#fff;font-weight:600;text-align:center}
+table.t td.k{background:#f3f6fa;font-weight:600;white-space:nowrap}
+table.t ul{margin:0;padding-left:16px}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:1px 8px;border-radius:99px;margin-right:4px}
+.tag.A{background:var(--a);color:#3d6b2a}.tag.B{background:var(--b);color:#1f4e79}.tag.C{background:var(--c);color:#8a5a00}
+
+/* model figure */
+.model{display:flex;flex-direction:column;gap:6px;font-size:14px}
+.mbox{border:1px solid #c9d2de;border-radius:10px;background:#fff;padding:10px 12px;text-align:center}
+.mbox.top{background:#eef2f7}
+.mbox b{display:block;color:var(--brand-ink)}
+.arrow{text-align:center;color:var(--muted);line-height:1}
+.mstage{border:2px solid var(--brand);border-radius:12px;padding:10px;background:#fff}
+.mstage .st{font-weight:800;color:var(--brand);text-align:center;margin-bottom:6px}
+.mstage.hl{box-shadow:0 0 0 4px #d6e4f2}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+@media (max-width:560px){.grid2,.grid3{grid-template-columns:1fr}}
+.cell{border:1px solid var(--line);border-radius:8px;padding:8px;text-align:center;background:#fbfcfd}
+.cell b{display:block}
+.cell.A{background:var(--a)}.cell.B{background:var(--b)}.cell.C{background:var(--c)}
+.mnote{text-align:center;font-size:13px;color:var(--ink2);margin-top:6px}
+.principles{background:#f2f4f7;border-radius:10px;padding:10px;text-align:center;font-size:13.5px}
+.focus-badge{display:inline-block;background:#d6e4f2;color:var(--brand-ink);font-size:11px;font-weight:700;border-radius:99px;padding:0 7px;margin-left:6px;vertical-align:middle}
+
+/* items */
+.item{border-top:1px solid var(--line2);padding:16px 0}
+.item:first-of-type{border-top:0;padding-top:4px}
+.item-h{font-weight:700;margin:0 0 6px}
+.item-h .no{display:inline-block;min-width:44px;color:var(--brand)}
+.gist{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:14.5px;margin:0 0 10px;color:var(--ink2)}
+.gist .lb{font-weight:700;font-size:12.5px;border-radius:6px;padding:1px 7px;align-self:start;margin-top:2px;white-space:nowrap}
+.gist .lb.now{background:#eef0f4;color:#4a5468}.gist .lb.new{background:var(--brand-soft);color:var(--brand)}
+.more{font-size:13.5px;margin:0 0 10px}
+.more summary{cursor:pointer;color:var(--brand);font-weight:600;width:max-content}
+.more .mb{margin-top:8px;background:#fafbfc;border:1px solid var(--line2);border-radius:10px;padding:10px 12px}
+.more .mb ul{margin:4px 0 8px;padding-left:18px}
+.more .mb h5{margin:4px 0 0;font-size:13px;color:var(--ink2)}
+.statement{margin:0 0 10px}
+
+/* rating */
+.rating{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:560px}
+.rating label{position:relative;cursor:pointer}
+.rating input{position:absolute;opacity:0;pointer-events:none}
+.rating span{display:flex;flex-direction:column;align-items:center;justify-content:center;border:1.5px solid var(--line);border-radius:10px;padding:8px 2px;background:#fff;min-height:54px;transition:all .12s}
+.rating span b{font-size:17px;line-height:1.2}
+.rating span small{font-size:11px;color:var(--muted);line-height:1.25;text-align:center;margin-top:2px}
+.rating label:hover span{border-color:#9fb3cc}
+.rating input:focus-visible+span{outline:3px solid #9cc3ea;outline-offset:1px}
+.rating input:checked+span{background:var(--brand);border-color:var(--brand);color:#fff}
+.rating input:checked+span small{color:#dfe9f5}
+.scale-legend{display:flex;justify-content:space-between;max-width:560px;font-size:12px;color:var(--muted);margin:4px 2px 0}
+.rlabel{font-size:13px;font-weight:700;color:var(--ink2);margin:0 0 6px}
+.missing .rating span{border-color:var(--err)}
+.missing .rmsg{display:block}
+.rmsg{display:none;color:var(--err);font-size:13px;margin-top:4px}
+
+textarea{width:100%;min-height:76px;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;resize:vertical;background:#fff;line-height:1.6;margin-top:10px}
+textarea:focus,input[type=text]:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px #d6e4f2}
+textarea.big{min-height:150px}
+.nudge{display:none;margin-top:8px;font-size:13px;color:var(--warn);background:var(--warn-soft);border-radius:8px;padding:6px 10px}
+.nudge.on{display:block}
+.cnt{text-align:right;font-size:12px;color:var(--muted);margin-top:2px}
+
+/* basic info */
+.field{margin:0 0 18px}
+.field>.fl{font-weight:700;margin:0 0 8px;display:block}
+input[type=text]{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips label{cursor:pointer}
+.chips input{position:absolute;opacity:0;pointer-events:none}
+.chips span{display:inline-block;border:1.5px solid var(--line);border-radius:99px;padding:6px 14px;background:#fff;font-size:14.5px}
+.chips input:checked+span{background:var(--brand);border-color:var(--brand);color:#fff}
+.chips input:focus-visible+span{outline:3px solid #9cc3ea}
+.field.missing .chips span{border-color:var(--err)}
+.field.missing .rmsg{display:block}
+.other-in{margin-top:8px;display:none}
+.other-in.on{display:block}
+
+.sub-h{font-weight:800;color:var(--brand-ink);margin:18px 0 4px;font-size:15.5px;padding-top:12px;border-top:2px solid var(--line2)}
+.sub-h:first-child{border-top:0;padding-top:0;margin-top:0}
+.inst-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:700px){.inst-row{grid-template-columns:1fr}}
+.inst-box{background:#fafbfc;border:1px solid var(--line2);border-radius:10px;padding:12px}
+.inst-box .txt{font-size:14.5px;margin:0 0 10px;min-height:44px}
+.inst-box textarea{min-height:64px}
+
+/* submit */
+.submit-card{text-align:center}
+.btn{background:var(--brand);color:#fff;border:0;border-radius:12px;padding:14px 34px;font-size:17px;font-weight:700;cursor:pointer}
+.btn:hover{background:var(--brand-ink)}
+.btn:disabled{opacity:.6;cursor:wait}
+.btn.ghost{background:#fff;color:var(--brand);border:1.5px solid var(--brand);font-size:14px;padding:8px 16px}
+.errbox{display:none;margin:14px auto 0;max-width:620px;text-align:left;background:var(--err-soft);color:var(--err);border-radius:10px;padding:12px 14px;font-size:14px}
+.errbox.on{display:block}
+.errbox a{color:var(--err);font-weight:700}
+.done-screen{display:none;max-width:640px;margin:60px auto;text-align:center;padding:0 16px}
+.done-screen .ok{width:64px;height:64px;border-radius:50%;background:#dff1ec;color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 18px}
+footer{color:var(--muted);font-size:13px;text-align:center;padding:24px 0 48px}
+</style>
+</head>
+<body>
+
+<div id="app">
+<div class="topbar">
+  <div class="wrap">
+    <div class="t">취학관리 협력체계 개선(안) 전문가 의견 조사</div>
+    <div class="prog"><span id="progTxt">0%</span><div class="bar"><i id="progBar"></i></div></div>
+    <div class="saved" id="savedTxt"></div>
+  </div>
+  <div class="wrap"><nav class="nav" id="nav"></nav></div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">[취학관리 업무 내실화 지원사업]</div>
+    <h1>취학관리 협력체계 개선(안)에 관한<br>전문가 의견 조사</h1>
+    <p>안녕하십니까? 바쁘신 와중에 우리 연구의 전문가 의견 조사에 참여해 주셔서 감사드립니다.</p>
+    <p>본 조사는 「취학관리 업무 내실화 지원사업」에서 도출한</p>
+    <ol>
+      <li>취학관리 협력체계의 기본 구조,</li>
+      <li>취학관리 협력체계 통합 모형과 사례별 대응 경로,</li>
+      <li>핵심 개선과제(안)를 검토하기 위해 마련하였습니다.</li>
+    </ol>
+    <p>조사에서 제시한 안은 국내 법령·매뉴얼과 해외 4개국(영국·미국 캘리포니아·일본·뉴질랜드) 사례 분석, 그리고 학교·교육(지원)청·경찰·아동보호전문기관·학교밖청소년지원센터 담당자, 학부모, 이주배경 학생 지원 담당자 면담 결과를 토대로 연구진이 구성한 초안입니다.</p>
+    <p>본 조사의 목적은 제시된 안을 일률적으로 평가하는 데 있지 않고, <b>유지할 부분과 수정·보완할 부분을 전문가의 의견을 통해 구체적으로 확인</b>하는 데 있습니다. 평정해 주신 결과는 항목별로 집계하여 최종안을 수정·보완하는 근거로 활용하고자 합니다.</p>
+    <p>취학관리 협력체계 개선을 위한 고견을 부탁드립니다. 감사합니다.</p>
+    <div class="sign">2026년 11월 &nbsp;「취학관리 업무 내실화 지원사업」 연구진</div>
+    <div class="meta">
+      <span>⏱ 약 25~30분 소요</span>
+      <span>💾 작성 내용은 이 브라우저에 자동 임시저장됩니다</span>
+      <span>✍️ 평정 문항은 필수, 의견 문항은 선택입니다</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="form"></main>
+
+<footer>「취학관리 업무 내실화 지원사업」 연구진</footer>
+</div>
+
+<div class="done-screen" id="done">
+  <div class="ok">✓</div>
+  <h2>응답이 제출되었습니다</h2>
+  <p>조사에 참여해 주셔서 감사합니다.<br>보내주신 의견은 11월 20일 회의에서 최종안 수정·보완의 근거로 활용하겠습니다.</p>
+  <p class="hint" id="doneId"></p>
+</div>
+
+<script>
+/* =====================================================================
+   설정
+   - Apps Script 웹 앱으로 배포하면 google.script.run 으로 자동 전송됩니다.
+   - 이 파일을 다른 곳(GitHub Pages 등)에 올릴 경우에만 아래 주소를 채우세요.
+   ===================================================================== */
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwWEiqwtPmVNuUyg6poIVEdiYE1-U5_85vd4zrz0o9_8b6tKKhMQSJ3bc3BsSOiw4X-/exec';   // 예: 'https://script.google.com/macros/s/XXXX/exec'
+const DRAFT_KEY = 'school-enroll-survey-2026-11';
+
+/* ---------------- 평정 척도 ---------------- */
+const SCALES = {
+  valid:  {name:'타당도', lo:'전혀 타당하지 않음', hi:'매우 타당함', labels:['전혀\n타당하지 않음','타당하지\n않음','보통','타당함','매우\n타당함']},
+  agree:  {name:'동의 정도', lo:'전혀 그렇지 않음', hi:'매우 그러함', labels:['전혀\n그렇지 않음','그렇지\n않음','보통','그러함','매우\n그러함']},
+  approp: {name:'적절성', lo:'전혀 적절하지 않음', hi:'매우 적절함', labels:['전혀\n적절하지 않음','적절하지\n않음','보통','적절함','매우\n적절함']},
+  import: {name:'중요도', lo:'전혀 중요하지 않음', hi:'매우 중요함', labels:['전혀\n중요하지 않음','중요하지\n않음','보통','중요함','매우\n중요함']}
+};
+
+/* ---------------- Ⅰ. 기본 구조 (표 1 + 문항 Ⅰ-1 요지) ---------------- */
+const PART1 = [
+  {id:'1', name:'기본 방향',
+   now:'학교(교사) 중심의 취학관리',
+   neo:['역할과 책임 기반의 협력체계를 통한 취학관리','교육 이행·지원 연계까지 확장'],
+   dNow:['학교가 확인·보고 책임의 중심이며, 소재·안전이 확인되면 절차가 종결됨'],
+   dNeo:['학교 중심의 확인·보고 체계에서 관계기관의 역할과 책임에 기반한 협력체계로 전환함','취학관리의 목적을 아동의 소재·안전 확인에 한정하지 않고, 교육 이행 상태 확인과 필요한 보호·교육 지원의 연계까지 확장함']},
+  {id:'2', name:'국가 단위 상위 협의체 운영',
+   now:'상위 협의체 없음',
+   neo:['교육부 중심 관계 부처 상설 협의체 구축 및 운영'],
+   dNow:['부처별 소관 업무에 따라 기관 간 개별 협조(공문) 중심으로 운영됨'],
+   dNeo:['교육부를 중심으로 관계 부처가 참여하는 상설 협의체를 마련하고, 기관별 역할과 책임, 정보 공유 및 협조 기준을 공동으로 정비함','부처 간 협의가 필요한 사안의 조정과 공동 지침의 마련·개선을 추진함']},
+  {id:'3', name:'지역 단위 취학관리 협력·조정체계',
+   now:'후속 관리 중심의 취학관리 전담기구 정례적 운영',
+   neo:['사례 대응 및 후속 관리를 전담하는 취학관리 전담기구 상시 운영 전환'],
+   dNow:['교육지원청 취학관리 전담기구는 사안 발생 시 협의하는 비상임 형태이며, 참여기관 구성이 지역마다 다름','일부 지역(인천)은 2026년부터 교육지원청이 소재 확인 일부를 맡으나 NEIS 입력은 학교가 함'],
+   dNeo:['교육지원청 취학관리 전담기구의 상시 운영체계를 마련하고, 관계기관의 정보 요청·회신, 사례별 협력 조정 및 확인 결과 관리를 지원함','사례 유형과 추가 확인·연계 필요성에 관한 판단, 정보 수합·기록 등의 실무를 구분하고 이를 수행할 담당 인력과 역할을 명확히 함']},
+  {id:'4', name:'사례별 협력 대응 경로',
+   now:'유형 및 경로 기준 없음',
+   neo:['학교에서 발생하는 다양한 사안을 다차원으로 판단할 수 있도록 하는 기준 제시'],
+   dNow:['미취학·장기 미인정 결석 경로별로 경과 일수에 따른 절차를 동일하게 적용하며, 확인 상태나 위험 수준에 따른 구분은 없음'],
+   dNeo:['아동의 소재·안전 확인 상태, 교육 이행 상태, 보호·교육 지원 필요성 및 추가 확인 필요성을 종합적으로 판단하여 사례별 협력 대응 경로를 구분함','행정 확인·정리, 추가 확인·소재 파악, 보호·교육 지원 연계의 세 가지 대응 경로를 기본으로 하되, 사례의 특성과 상황 변화에 따라 경로를 병행하거나 전환할 수 있도록 함']},
+  {id:'5', name:'특수 사례의 취학 진입 지원',
+   now:'특수 사례 별도 관리 없음',
+   neo:['명부 누락 또는 명부 밖 학생 관리를 위한 지원 체계 마련'],
+   dNow:['외국 국적 등으로 취학 대상 명부에 포함되지 않거나 거주지·학적 정보가 불명확한 아동은 취학 대상 확인과 학교 배정 과정에서 어려움이 발생함','이주배경 아동의 취학 과정에서 학교가 기초상담, 서류 확인, 학년 결정, 학적 생성 등의 업무를 수행하며, 다국어 안내 자료의 활용은 제한적임'],
+   dNeo:['취학 대상 명부 누락, 거주지·학적 정보 불일치 등으로 취학 진입에 어려움이 있는 아동을 조기에 발견하고, 교육지원청 중심으로 취학 절차와 학교 배정을 지원함','이주배경 아동 등 추가 지원이 필요한 사례에 대해 서류 확인·학년 결정·학교 배정을 지원하고, 출입국·재외공관 등 관계기관과 연계하여 취학 안내 및 정보 접근성을 강화함']},
+  {id:'6', name:'단계별 기관 역할',
+   now:'시·도별 운영 지침에 따라 상이함',
+   neo:['취학관리 유형 및 단계에 따른 협력 주체의 역할과 책임에 관한 공통 기준 마련'],
+   dNow:['매뉴얼에 경과 일수별 절차가 제시되어 있고, 관계기관은 학교의 협조 요청 시점에 참여함'],
+   dNeo:['초기 확인 → 추가 확인·사례 판단 → 소재·안전 확인 → 보호·교육 지원 연계 → 결과 회신·사후관리의 단계별로 주관·협조 기관의 역할을 구분함','단계 간 확인 결과의 전달, 협력 요청 및 책임 전환 기준을 마련하고 교육지원청 전담기구의 조정 기능을 연계함']},
+  {id:'7', name:'정보 공유·회신',
+   now:'정보 관리 기관의 연계 미흡 및 접근 권한 불명확',
+   neo:['취학관리를 위한 최소 정보 항목 및 공유 절차 표준화'],
+   dNow:['공문 위주로 요청·회신하며 기관별 시스템과 요청 항목이 다르고, NEIS 입력은 학교가 함'],
+   dNeo:['관계기관 간 정보 요청 목적과 최소 필요 항목, 회신 절차를 표준화하고 관련 법령에 근거하여 정보를 공유함','기관별 확인 결과의 전달과 기록 책임을 명확히 하여 중복 입력을 줄이고 정보의 연속성을 확보함']},
+  {id:'8', name:'사례 종결·기관 간 연계 원칙',
+   now:'일부 사례(학생 보호 등)에 대한 업무 지침 차원의 원칙 존재',
+   neo:['사례 유형에 따른 종결 판정 원칙 마련','기관 간 연계 및 관리 기준 마련'],
+   dNow:['기관별 종결 기준이 다르고, 지원기관 연계 이후 이용 여부를 확인하는 절차가 없음'],
+   dNeo:['소재·안전 확인과 취학관리의 종결 여부를 구분하고, 교육 이행 상태와 지원 필요성에 따라 후속 확인·연계 기준을 적용함','관계기관의 지원·이관·종결 결과 중 취학관리에 필요한 사항을 적법한 범위에서 공유하여 관리의 공백을 방지함']}
+];
+
+/* ---------------- Ⅱ. 통합 모형 문항 (2·3단계 중심으로 분화) ---------------- */
+const PART2_OVERALL = {id:'Ⅱ-1', text:'통합 모형의 4단계(발견·접수 → 다차원 판단 → 경로 결정 → 결과 확인·이관·후속 관리)는 취학관리 사례를 다루는 흐름으로 적절하다.'};
+const PART2_STAGE2 = [
+  {id:'Ⅱ-2-1', short:'소재·안전 기준', text:'<b>소재·안전</b> 측면과 그 판단 구분(확인 / 미확인 / 위험 징후)은 대응 경로를 정하는 기준으로 적절하다.'},
+  {id:'Ⅱ-2-2', short:'교육 이행 기준', text:'<b>교육 이행</b> 측면과 그 판단 구분(확인 / 불명확 / 미이행)은 대응 경로를 정하는 기준으로 적절하다.'},
+  {id:'Ⅱ-2-3', short:'보호·지원 필요 기준', text:'<b>보호·지원 필요</b> 측면과 그 판단 구분(없음 / 교육 지원 / 보호 개입)은 대응 경로를 정하는 기준으로 적절하다.'},
+  {id:'Ⅱ-2-4', short:'정보·협조 상태 기준', text:'<b>정보·협조 상태</b> 측면과 그 판단 구분(충분 / 추가 확인·협력 필요)은 대응 경로를 정하는 기준으로 적절하다.'},
+  {id:'Ⅱ-2-5', short:'종합 판단의 현장 적용 가능성', text:'네 가지 측면을 종합하여 사례를 판단하는 방식은 학교 현장에서 실제로 적용할 수 있는 수준이다.'},
+  {id:'Ⅱ-2-6', short:'학교 1차 판단·교육지원청 조정 역할 배분', text:'학교가 1차로 판단하고, 판단이 어려운 사례는 교육지원청 전담기구가 판단·조정하는 역할 배분은 적절하다.'}
+];
+const PART2_STAGE3 = [
+  {id:'Ⅱ-3-1', short:'경로 A(학교 행정 확인·처리)', text:'<span class="tag A">경로 A</span> <b>학교 중심의 행정 확인·처리</b>로 마무리하는 경로의 대상과 역할은 적절하다.'},
+  {id:'Ⅱ-3-2', short:'경로 B(추가 확인·소재 파악)', text:'<span class="tag B">경로 B</span> <b>교육지원청 조정에 따른 추가 확인·소재 파악</b> 경로의 대상과 역할은 적절하다.'},
+  {id:'Ⅱ-3-3', short:'경로 C(보호·교육 지원 연계)', text:'<span class="tag C">경로 C</span> <b>권한별 관계기관이 참여하는 보호·교육 지원 연계</b> 경로의 대상과 역할은 적절하다.'},
+  {id:'Ⅱ-3-4', short:'경로 전환·병행 원칙', text:'사례의 특성과 상황 변화에 따라 경로를 <b>전환·병행</b>할 수 있도록 한 원칙은 적절하다.'},
+  {id:'Ⅱ-3-5', short:'긴급 위험 시 보호·신고 우선 원칙', text:'<b>긴급 위험 시 보호·신고 절차를 우선</b>하는 원칙은 적절하다.'}
+];
+
+/* 표 2 사례의 적용 예시 — 첫 행(경로 A 사례)은 회의 메모에 따라 추가한 예시 */
+const CASES = [
+  {c:'예비소집에 불참하였으나 보호자와 연락이 닿아 해외 출국 사실과 현지 학교 재학이 확인됨', j:'소재 확인, 교육 이행 확인, 정보 충분', p:'<span class="tag A">A</span> 행정 확인·처리'},
+  {c:'예비소집 불참, 보호자 연락 두절, 실제 거주지 불명', j:'소재 미확인, 추가 확인 필요', p:'<span class="tag B">B</span> 추가 확인·소재 파악'},
+  {c:'해외 유학 후 귀국했으나 학교에 복귀하지 않음', j:'소재 확인, 교육 이행 불명확', p:'<span class="tag B">B</span> → 필요 시 <span class="tag C">C</span>'},
+  {c:'장기 미인정 결석 중인 학생이 위험한 또래 집단과 어울리며 연락이 닿지 않음', j:'안전 위험, 보호 개입 필요', p:'<span class="tag C">C</span> 우선, <span class="tag B">B</span> 병행 가능'},
+  {c:'취학 대상 명부에 포착되지 않은 외국 국적 아동', j:'취학 진입 이전의 발견 공백', p:'별도 발견·접수 경로 → A/B/C 판단'}
+];
+
+/* 표 3 기관 간 역할과 책임의 경계 */
+const INST = [
+  {id:'1', name:'학교', role:'최초 발견, 학적 확인, 학생·보호자 접촉과 기초 확인, 경로 A 처리', bound:'수사·보호 권한을 대신하지 않으며, 추가 확인이 필요한 사례는 교육지원청에 판단·조정을 요청함'},
+  {id:'2', name:'교육지원청 전담기구', role:'학교 지원, 사례 판단·협력 경로 조정, 의뢰·회신 및 이관 관리', bound:'모든 사례의 직접 조사기관이 되지 않음(수사는 경찰, 보호는 아동보호 관련 기관)'},
+  {id:'3', name:'시·도교육청', role:'운영 기준 정비, 지역 간 조정, 전담기구 지원', bound:'개별 학교의 일상적 확인 업무를 모두 수행하지 않음'},
+  {id:'4', name:'경찰', role:'긴급 위험 대응, 소관 범위의 소재·안전 확인 협조, 결과 회신', bound:'학적관리와 교육 참여 판단을 대신하지 않음'},
+  {id:'5', name:'지자체·아동보호 관련 기관', role:'행정 정보 확인 협조, 보호 필요성 판단과 보호 개입, 복지 서비스 연계', bound:'취학·학적 판단을 대신하지 않음'},
+  {id:'6', name:'학교 밖·지역 지원기관', role:'상담·학습·진로 등 지원, 지원 이력의 적법한 범위 내 공유', bound:'학교 복귀를 전제로 하지 않으며, 취학관리의 확인 책임을 지지 않음'}
+];
+
+/* ---------------- Ⅲ. 핵심 개선과제 (표 4) ---------------- */
+const PART3 = [
+  {cat:'1', name:'취학관리를 위한 협력체계 확대', tasks:[
+    {no:'1-1', name:'교육부 주관 국가 단위 상설 협의체계 구축', now:'부처 간 상설 협의체계 없이 기관별 개별 협조', neo:'교육부·성평등가족부·경찰청 등 관계 부처 상설 협의, 역할·협조 기준·정보 공유 원칙을 공동 지침으로 마련', own:'교육부 (관계 부처)'},
+    {no:'1-2', name:'교육지원청의 조정 기능 활성화 및 상설 취학관리 전담기구 운영', now:'사안 발생 시 협의하는 비상임 형태, 보고 수합 중심', neo:'사례 판단·조정, 기관 간 의뢰·회신, 기록·이관 관리를 상시 수행하고 담당 인력 지정', own:'시·도교육청 (교육지원청)'},
+    {no:'1-3', name:'관계기관 내 협력 담당 부서 지정 및 업무 인계 체계 마련', now:'협력기관 담당자가 1~2년마다 교체, 기관·지역마다 대응 상이', neo:'주민센터·경찰서·아동보호전문기관 등의 협력 담당 부서 지정, 담당자 교체 시 인계 절차 마련', own:'시·도교육청 (관계기관)'}]},
+  {cat:'2', name:'취학관리의 범위 및 관리 대상 명료화', tasks:[
+    {no:'2-1', name:'취학관리 대상의 범위 명료화', now:'미취학·장기 미인정 결석·유예·면제·정원외 관리가 개별 절차로 운영되고, 취학관리의 범위를 기관마다 다르게 이해함', neo:'취학관리에 포함되는 대상과 관리 종료 시점을 지침에 명시', own:'교육부'},
+    {no:'2-2', name:'사례 판단을 위한 경로 및 유형별 관리 체계 구축', now:'경과 일수 기준의 일률적 절차, 사례 구분 없음', neo:'다차원 판단 기준과 경로 A·B·C, 경로 전환 기준을 매뉴얼에 명시', own:'교육부·시·도교육청'},
+    {no:'2-3-1', name:'(초기 탐색) 의뢰 주체·의뢰처, 기초 확인 체크리스트 개발 및 매뉴얼 명시', parent:'2-3 관계기관 협력 개시를 위한 기준 마련', now:'협조 요청 시점·기준 불명확, 동행은 권고 수준, 서식이 기관마다 다름', neo:'의뢰 주체·의뢰처, 기초 확인 체크리스트 개발 및 매뉴얼 명시', own:'시·도교육청 (관계기관)'},
+    {no:'2-3-2', name:'(안전 확보) 가정방문 등 취학관리 담당자의 안전 확보를 위한 협조 방안', parent:'2-3 관계기관 협력 개시를 위한 기준 마련', now:'협조 요청 시점·기준 불명확, 동행은 권고 수준, 서식이 기관마다 다름', neo:'가정방문 등 취학관리 담당자의 안전 확보를 위한 협조 방안', own:'시·도교육청 (관계기관)'},
+    {no:'2-3-3', name:'(절차 표준화) 의뢰·회신 서식, 관리 서류 등 체계화', parent:'2-3 관계기관 협력 개시를 위한 기준 마련', now:'협조 요청 시점·기준 불명확, 동행은 권고 수준, 서식이 기관마다 다름', neo:'의뢰·회신 서식, 관리 서류 등 체계화', own:'시·도교육청 (관계기관)'}]},
+  {cat:'3', name:'취학관리 정보 연계 기반 구축', tasks:[
+    {no:'3-1', name:'행정 정보 연계', now:'학교의 행정정보 공동이용 범위가 제한적이고(외국 국적 아동 출입국은 주민센터 경유), 이동 시 정보 전달 미흡', neo:'학생의 소재(주소지)·출입국 정보를 교육기관과 지자체 간에 확인하는 경로 정비', own:'교육부 (관계 부처)'},
+    {no:'3-2', name:'학생 보호·지원 정보 연계', now:'지원기관의 종결·이관 결과가 교육기관에 공유되지 않음', neo:'학생 보호(학대 이력 등)·지원 이력 중 취학관리에 필요한 최소 정보를 적법한 범위에서 공유', own:'교육부 (관계 부처)'}]},
+  {cat:'4', name:'학교 현장 이해도 제고를 위한 지원', tasks:[
+    {no:'4-1', name:'취학관리를 위한 사례집 및 자료 개발', now:'판단 노하우가 개인에게 귀속, 인계는 명단 위주', neo:'판단 사례집, 연락 이력·요청·회신·미확인 사항을 담은 인계 기록 양식', own:'시·도교육청'},
+    {no:'4-2', name:'업무 담당자를 위한 연수 정례화', now:'조항·서식 위주 안내, 담당자 교체로 숙달에 1년 이상 소요', neo:'상황 사례로 경로를 판단해 보는 사례 기반 연수의 정례 운영', own:'시·도교육청·교육지원청'}]},
+  {cat:'5', name:'특수 사례 관리를 위한 체계 구축', tasks:[
+    {no:'5-1', name:'중도입국 아동 서류 확인·학년 결정·배정 지원', now:'학교(교무실무사)가 서류 확인·학년 결정 전담', neo:'교육지원청(학력심의위원회·학교통합지원센터 등)이 서류 확인과 학년 결정 후 배정', own:'시·도교육청 (교육지원청)'},
+    {no:'5-2', name:'입학 서류·학년 결정 기준 정비', now:'예방접종·전 학년 성적증명 요구, ‘2년 하향 가능’ 규정으로 민원 발생', neo:'대체 서류 인정 범위 명시, 학년 결정의 ‘제 나이 배정 원칙’ 명시', own:'교육부·시·도교육청'}]}
+];
+
+/* =====================================================================
+   렌더링
+   ===================================================================== */
+const FIELDS = [];      // 시트 열 순서: {key, type:'rating'|'text'|'choice'|'multi', required, label}
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const strip = h => h.replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim();
+let uid = 0;
+
+function reg(key, type, required){ FIELDS.push({key, type, required}); return 'f' + (FIELDS.length - 1); }
+
+function ratingHTML(key, scaleKey, label){
+  const name = reg(key + ' [평정]', 'rating', true);
+  const sc = SCALES[scaleKey];
+  let h = `<div class="rwrap" data-name="${name}">`;
+  if (label) h += `<div class="rlabel">${label}</div>`;
+  h += `<div class="rating" role="radiogroup" aria-label="${esc(sc.name)}">`;
+  for (let v = 1; v <= 5; v++){
+    h += `<label><input type="radio" name="${name}" value="${v}"><span><b>${v}</b><small>${sc.labels[v-1].replace('\n','<br>')}</small></span></label>`;
+  }
+  h += `</div><span class="rmsg">평정을 선택해 주세요.</span></div>`;
+  return h;
+}
+function textHTML(key, ph, big, nudge){
+  const name = reg(key + ' [의견]', 'text', false);
+  return `<textarea name="${name}" class="${big?'big':''}" placeholder="${esc(ph||'수정·보완 의견 (선택)')}" ${nudge?'data-nudge="1"':''}></textarea>` +
+         (nudge ? `<div class="nudge">낮게 평정하신 이유와 어떻게 고치면 좋을지 적어주시면 최종안 수정에 큰 도움이 됩니다.</div>` : '');
+}
+const ul = arr => '<ul>' + arr.map(x => `<li>${x}</li>`).join('') + '</ul>';
+
+function build(){
+  const F = $('#form');
+  let h = '';
+
+  /* ---------- 기본정보 ---------- */
+  h += part('info','','응답자 기본정보','응답 결과는 통계적으로 처리되며, 응답자 정보는 응답 경향 분석에만 활용됩니다.');
+  h += `<div class="card">`;
+  h += choiceField('소속 기관 유형', 'choice', true, ['학교','교육지원청','시·도교육청','교육부·국가 기관','경찰','지자체·아동보호 관련 기관','학교 밖·지역 지원기관','대학·연구기관','기타']);
+  h += textField('직위·직무', '예: 교육지원청 장학사(취학관리 담당), 아동보호전문기관 상담원 등');
+  h += choiceField('취학관리 관련 업무·연구 경력', 'choice', true, ['1년 미만','1~3년 미만','3~5년 미만','5~10년 미만','10년 이상']);
+  h += choiceField('주요 전문 분야 (복수 선택 가능)', 'multi', true, ['취학·학적 관리','학생 보호·아동복지','학교 밖 청소년 지원','이주배경 학생 지원','교육행정·정책','법·제도','기타']);
+  h += textField('성명 (선택)', '회의 시 의견 확인이 필요할 경우를 위해 기재해 주셔도 됩니다');
+  h += `</div>`;
+
+  /* ---------- Ⅰ ---------- */
+  h += part('p1','Ⅰ','취학관리 협력체계 기본 구조 검토','취학관리 협력체계는 새로운 사업의 목록이 아니라, 국가 단위 협의체에서 지역 단위 협력·조정체계, 학교와 관계기관의 단계별 역할까지를 하나의 틀로 연결하기 위해 다음과 같이 구성하였습니다.');
+  h += `<details class="ref"><summary>&lt;표 1&gt; 협력체계 구성요소별 현행과 개선(안) 전체 보기</summary><div class="body"><div class="tbl-wrap"><table class="t"><thead><tr><th style="width:18%">구성요소</th><th style="width:34%">현행</th><th>개선(안)</th></tr></thead><tbody>` +
+       PART1.map(r => `<tr><td class="k">${r.name.replace('취학관리 협력','취학관리<br>협력')}</td><td>${ul(r.dNow)}</td><td>${ul(r.dNeo)}</td></tr>`).join('') +
+       `</tbody></table></div></div></details>`;
+  h += `<div class="card"><p class="q-h"><span class="qn">[문항 Ⅰ-1]</span>위 &lt;표 1&gt;을 참고하여 현행과 비교한 구성요소별 개선(안)의 <u>타당도</u>를 평정하여 주십시오.<span class="req">*</span></p>
+        <p class="q-sub">각 구성요소의 ‘상세 내용’을 펼치면 &lt;표 1&gt;의 해당 내용을 볼 수 있습니다. 수정·보완 의견은 가능한 한 구체적으로(무엇을, 어떻게) 적어 주시면 감사하겠습니다.</p>`;
+  PART1.forEach((r,i) => {
+    const key = `Ⅰ-1 (${i+1}) ${r.name}`;
+    h += `<div class="item"><p class="item-h"><span class="no">(${i+1})</span>${r.name}</p>
+      <div class="gist"><span class="lb now">현행</span><span>${r.now}</span><span class="lb new">개선</span><span>${r.neo.join('<br>')}</span></div>
+      <details class="more"><summary>상세 내용 (&lt;표 1&gt;)</summary><div class="mb"><h5>현행</h5>${ul(r.dNow)}<h5>개선(안)</h5>${ul(r.dNeo)}</div></details>
+      ${ratingHTML(key,'valid')}${textHTML(key,'수정·보완 의견 (선택)',false,true)}</div>`;
+  });
+  h += `</div>`;
+  h += `<div class="card"><p class="q-h"><span class="qn">[문항 Ⅰ-2]</span>구성요소 간 관계, 누락된 구성요소 등에 관한 의견을 자유롭게 제안해 주십시오.</p>${textHTML('Ⅰ-2 구성요소 간 관계·누락 구성요소','의견을 자유롭게 작성해 주십시오.',true)}</div>`;
+
+  /* ---------- Ⅱ ---------- */
+  h += part('p2','Ⅱ','취학관리 협력체계 통합 모형 검토','현행은 사례의 확인 상태나 위험 수준과 관계없이 경과 일수에 따른 절차를 동일하게 적용합니다. 개선(안)은 사례를 발견·접수한 뒤 네 가지 측면에서 판단하여 협력 대응 경로를 정하고, 학교가 1차로 판단하되 판단이 어려운 사례는 교육지원청 전담기구가 판단·조정하도록 구성하였습니다.');
+  h += `<details class="ref" open><summary>&lt;그림 1&gt; 취학관리 협력체계 통합 모형(안)</summary><div class="body">${modelHTML()}</div></details>`;
+
+  h += `<div class="card"><p class="q-h"><span class="qn">[문항 Ⅱ-1]</span>통합 모형 전반</p><p class="q-sub">&lt;그림 1&gt;을 참고하여 다음 문항을 평정하여 주십시오.</p>
+        <div class="item"><p class="statement">${PART2_OVERALL.text}</p>${ratingHTML('Ⅱ-1 4단계 흐름의 적절성','agree')}${textHTML('Ⅱ-1 4단계 흐름의 적절성','수정·보완 의견 (선택) — 예: 빠지거나 합쳐야 할 단계, 4단계(결과 확인·이관·후속 관리)에 대한 의견',false,true)}</div></div>`;
+
+  h += `<div class="card"><p class="q-h"><span class="qn">[문항 Ⅱ-2]</span>[2단계] 다차원 사례 판단<span class="req">*</span></p><p class="q-sub">사례를 발견·접수한 뒤 <b>소재·안전, 교육 이행, 보호·지원 필요, 정보·협조 상태</b>의 네 측면에서 판단하는 단계입니다.</p>`;
+  PART2_STAGE2.forEach(q => { const k = `${q.id} ${q.short}`; h += `<div class="item"><p class="statement"><span class="no" style="color:var(--brand);font-weight:700;margin-right:6px">${q.id}</span>${q.text}</p>${ratingHTML(k,'agree')}${textHTML(k,'수정·보완 의견 (선택) — 예: 판단 구분의 추가·변경, 판단 시 필요한 정보',false,true)}</div>`; });
+  h += `</div>`;
+
+  h += `<div class="card"><p class="q-h"><span class="qn">[문항 Ⅱ-3]</span>[3단계] 협력 대응 경로 결정<span class="req">*</span></p><p class="q-sub">판단 결과에 따라 경로 A·B·C 중 대응 경로를 정하는 단계입니다.</p>`;
+  PART2_STAGE3.forEach(q => { const k = `${q.id} ${q.short}`; h += `<div class="item"><p class="statement"><span class="no" style="color:var(--brand);font-weight:700;margin-right:6px">${q.id}</span>${q.text}</p>${ratingHTML(k,'agree')}${textHTML(k,'수정·보완 의견 (선택) — 예: 경로의 대상·주관 기관, 전환 기준',false,true)}</div>`; });
+  h += `</div>`;
+
+  h += `<details class="ref" open><summary>&lt;표 2&gt; 사례의 적용 예시</summary><div class="body"><div class="tbl-wrap"><table class="t"><thead><tr><th>사례 유형</th><th style="width:28%">다차원 판단</th><th style="width:24%">협력 경로</th></tr></thead><tbody>` +
+       CASES.map(c => `<tr><td>${c.c}</td><td>${c.j}</td><td>${c.p}</td></tr>`).join('') + `</tbody></table></div></div></details>`;
+  h += `<div class="card"><p class="q-h"><span class="qn">[문항 Ⅱ-4]</span>&lt;표 2&gt; 사례의 적용 예시에 관한 의견</p>
+        <p class="q-sub">현장에서 실제로 판단할 때를 떠올리며 답해 주십시오.</p>
+        <div class="item"><p class="statement"><b>(1) 판단 난이도</b> — 제시된 사례 중 현장에서 경로를 판단하기 어렵거나, 연구진의 판단과 다르게 판단될 수 있는 사례가 있다면 무엇이며 그 이유는 무엇입니까?</p>${textHTML('Ⅱ-4 (1) 사례 판단 난이도','예: ○번째 사례는 소재는 확인되나 … 이므로 B가 아닌 C로 보아야 함',true)}</div>
+        <div class="item"><p class="statement"><b>(2) 효용성</b> — 사례 예시가 실제 판단에 도움이 되려면 어떤 사례나 정보가 추가·보완되어야 합니까? 현장에서 자주 접하지만 경로 판단이 모호한 사례가 있다면 함께 적어 주십시오.</p>${textHTML('Ⅱ-4 (2) 사례 예시 효용성·추가 사례','예: 유예 후 재취학 시점에 연락이 끊긴 사례 등',true)}</div></div>`;
+
+  h += `<div class="card"><p class="q-h"><span class="qn">[문항 Ⅱ-5]</span>&lt;표 3&gt; 기관 간 역할과 책임의 경계(안)<span class="req">*</span></p>
+        <p class="q-sub">기관별로 제안한 <b>핵심 역할</b>과 <b>책임의 경계</b>가 각각 적절한지 평정하고, 보완할 점을 적어 주십시오.</p>`;
+  INST.forEach(r => {
+    const k1 = `Ⅱ-5 (${r.id}) ${r.name} 핵심 역할`, k2 = `Ⅱ-5 (${r.id}) ${r.name} 책임의 경계`;
+    h += `<div class="item"><p class="item-h"><span class="no">(${r.id})</span>${r.name}</p><div class="inst-row">
+      <div class="inst-box"><div class="rlabel">제안하는 핵심 역할</div><p class="txt">${r.role}</p>${ratingHTML(k1,'approp')}${textHTML(k1,'핵심 역할에 대한 의견 (선택)',false,true)}</div>
+      <div class="inst-box"><div class="rlabel">책임의 경계</div><p class="txt">${r.bound}</p>${ratingHTML(k2,'approp')}${textHTML(k2,'책임의 경계에 대한 의견 (선택)',false,true)}</div>
+    </div></div>`;
+  });
+  h += `</div>`;
+
+  /* ---------- Ⅲ ---------- */
+  h += part('p3','Ⅲ','핵심 개선과제(안) 검토','핵심 개선과제는 협력체계를 실제 정책 수단으로 구현하기 위해 5개 정책 범주, 12개 세부 과제로 구성하였습니다. 구체화 내용은 과제의 의미를 판단하실 수 있도록 제시한 예시입니다.');
+  h += `<details class="ref"><summary>&lt;표 4&gt; 정책 범주별 핵심 개선과제(안) 전체 보기</summary><div class="body"><div class="tbl-wrap"><table class="t"><thead><tr><th style="width:7%">No</th><th style="width:20%">세부 과제</th><th style="width:25%">현행</th><th>개선(안) 구체화(예시)</th><th style="width:14%">주관(협조)</th></tr></thead><tbody>` +
+       PART3.map(c => `<tr><td colspan="5" class="k">${c.cat}. ${c.name}</td></tr>` + c.tasks.map(t => `<tr><td>${t.no}</td><td>${t.parent? t.parent + '<br>':''}${t.parent? '· ' + t.name : t.name}</td><td>${t.now}</td><td>${t.neo}</td><td>${t.own}</td></tr>`).join('')).join('') +
+       `</tbody></table></div></div></details>`;
+  h += `<div class="card"><p class="q-h"><span class="qn">[문항 Ⅲ-1]</span>위 &lt;표 4&gt;를 참고하여 세부 과제별 <u>중요도</u>를 평정하여 주십시오.<span class="req">*</span></p>
+        <p class="q-sub">각 과제의 ‘현행·구체화 예시’를 펼쳐 확인하실 수 있습니다. 정책 범주마다 수정·보완 의견을 적는 칸이 있습니다.</p>`;
+  PART3.forEach(c => {
+    h += `<p class="sub-h">${c.cat}. ${c.name}</p>`;
+    c.tasks.forEach(t => {
+      const k = `Ⅲ-1 ${t.no} ${t.name}`;
+      h += `<div class="item"><p class="item-h"><span class="no">${t.no}</span>${t.name}</p>
+        <details class="more"><summary>현행·구체화 예시</summary><div class="mb">${t.parent?`<h5>상위 과제</h5><p style="margin:2px 0 6px">${t.parent}</p>`:''}<h5>현행</h5><p style="margin:2px 0 6px">${t.now}</p><h5>개선(안) 구체화(예시)</h5><p style="margin:2px 0 6px">${t.neo}</p><h5>주관(협조)</h5><p style="margin:2px 0 0">${t.own}</p></div></details>
+        ${ratingHTML(k,'import')}</div>`;
+    });
+    h += `<div class="item"><p class="rlabel">‘${c.name}’ 수정·보완 의견</p>${textHTML(`Ⅲ-1 범주${c.cat} ${c.name}`,'과제명·구체화 내용·주관 기관 등에 대한 수정·보완 의견 (선택)')}</div>`;
+  });
+  h += `</div>`;
+  h += `<div class="card"><p class="q-h"><span class="qn">[문항 Ⅲ-2]</span>&lt;표 4&gt;에 충분히 반영되지 않은 과제가 있다면 제안해 주십시오.</p>${textHTML('Ⅲ-2 추가 제안 과제','과제명과 필요성, 주관 기관 등을 자유롭게 작성해 주십시오.',true)}</div>`;
+
+  /* ---------- Ⅳ ---------- */
+  h += part('p4','Ⅳ','종합 의견','');
+  h += `<div class="card"><p class="q-h"><span class="qn">[문항 Ⅳ-1]</span>연구의 완성도를 높이기 위해 추가로 검토하거나 반영되어야 할 사항, 그 밖의 의견이 있으시면 자유롭게 작성해 주십시오.</p>${textHTML('Ⅳ-1 종합 의견','의견을 자유롭게 작성해 주십시오.',true)}</div>`;
+
+  h += `<div class="card submit-card"><p style="margin:0 0 14px">모든 평정 문항에 응답하셨는지 확인하신 후 제출해 주십시오.</p>
+        <button class="btn" id="submitBtn" type="button">응답 제출하기</button>
+        <div class="errbox" id="errBox"></div>
+        <p class="hint" style="margin-top:14px">제출 전까지 작성 내용은 이 브라우저에 임시저장됩니다. &nbsp;<button type="button" class="btn ghost" id="resetBtn">작성 내용 모두 지우기</button></p></div>`;
+
+  F.innerHTML = h;
+
+  /* nav */
+  $('#nav').innerHTML = [['info','기본정보'],['p1','Ⅰ. 기본 구조'],['p2','Ⅱ. 통합 모형'],['p3','Ⅲ. 개선과제'],['p4','Ⅳ. 종합 의견']]
+    .map(([id,t]) => `<a href="#${id}" data-sec="${id}">${t}</a>`).join('');
+}
+
+function part(id, num, title, lead){
+  return `<section class="part" id="${id}"><div class="part-h">${num?`<span class="num">${num}.</span>`:''}<h2>${title}</h2></div>${lead?`<p class="lead">${lead}</p>`:''}</section>`;
+}
+function choiceField(label, type, required, opts){
+  const name = reg('기본정보: ' + label.replace(/\s*\(.*\)/,''), type, required);
+  const it = type === 'multi' ? 'checkbox' : 'radio';
+  return `<div class="field" data-name="${name}"><span class="fl">${label}${required?'<span class="req">*</span>':''}</span><div class="chips">` +
+    opts.map(o => `<label><input type="${it}" name="${name}" value="${esc(o)}"><span>${o}</span></label>`).join('') +
+    `</div>` + (opts.includes('기타') ? `<input type="text" class="other-in" data-other="${name}" placeholder="기타 내용을 입력해 주십시오">` : '') +
+    `<span class="rmsg">선택해 주세요.</span></div>`;
+}
+function textField(label, ph){
+  const name = reg('기본정보: ' + label.replace(/\s*\(.*\)/,''), 'short', false);
+  return `<div class="field"><label class="fl" for="${name}">${label}</label><input type="text" id="${name}" name="${name}" placeholder="${esc(ph)}"></div>`;
+}
+function modelHTML(){
+  return `<div class="model">
+    <div class="mbox top"><b>국가 단위 협력 기반</b>교육부·관계 부처: 공동 지침, 역할·권한 기준, 정보 공유 근거, 제도 개선</div>
+    <div class="arrow">↑↓</div>
+    <div class="mbox top"><b>지역 취학관리 협력·조정체계</b>시·도교육청 및 교육지원청 전담기구 중심의 조정·지원 기능<br>1) 사례 판단·조정 / 2) 기관 간 의뢰·회신 / 3) 기록·이관 관리</div>
+    <div class="arrow">↑↓</div>
+    <div class="mstage"><div class="st">[1단계] 사례 발견·접수</div><div class="mnote" style="margin:0">예비소집 불참 / 장기 미인정 결석 / 유예·면제 이후 상태 변화 / 취학 진입 누락</div></div>
+    <div class="arrow">↓</div>
+    <div class="mstage hl"><div class="st">[2단계] 다차원 사례 판단 (학교 및 교육지원청)<span class="focus-badge">문항 Ⅱ-2</span></div>
+      <div class="grid2">
+        <div class="cell"><b>소재·안전</b>확인 / 미확인 / 위험 징후</div>
+        <div class="cell"><b>교육 이행</b>확인 / 불명확 / 미이행</div>
+        <div class="cell"><b>보호·지원 필요</b>없음 / 교육 지원 / 보호 개입</div>
+        <div class="cell"><b>정보·협조 상태</b>충분 / 추가 확인·협력 필요</div>
+      </div></div>
+    <div class="arrow">↓</div>
+    <div class="mstage hl"><div class="st">[3단계] 협력 대응 경로 결정<span class="focus-badge">문항 Ⅱ-3</span></div>
+      <div class="grid3">
+        <div class="cell A"><b>경로 A (학교)</b>행정 확인·처리<br><small>학교 중심</small></div>
+        <div class="cell B"><b>경로 B (교육지원청)</b>추가 확인·소재 파악<br><small>교육지원청 조정</small></div>
+        <div class="cell C"><b>경로 C (교육지원청)</b>보호·교육 지원 연계<br><small>권한별 관계기관 참여</small></div>
+      </div>
+      <div class="mnote">경로 간 전환·병행 가능 &nbsp;/&nbsp; 긴급 위험 시 보호·신고 절차 우선</div></div>
+    <div class="arrow">↓</div>
+    <div class="mstage"><div class="st">[4단계] 결과 확인·이관·후속 관리</div><div class="mnote" style="margin:0">확인 결과 기록 → 후속 책임 확인 → 필요 시 재판단</div></div>
+    <div class="principles"><b>모든 단계에 적용되는 공통 원칙</b><br>아동의 교육받을 권리 · 기관별 법적 권한 존중 · 최소 정보 공유 · 담당자 안전 · 업무 연속성</div>
+  </div>`;
+}
+
+/* =====================================================================
+   상태 수집 · 임시저장 · 진행률
+   ===================================================================== */
+function collect(){
+  const out = {};
+  FIELDS.forEach((f,i) => {
+    const name = 'f' + i;
+    if (f.type === 'rating' || f.type === 'choice'){
+      const el = document.querySelector(`input[name="${name}"]:checked`);
+      let v = el ? el.value : '';
+      if (f.type === 'choice' && v === '기타'){ const o = document.querySelector(`[data-other="${name}"]`); if (o && o.value.trim()) v = '기타: ' + o.value.trim(); }
+      out[name] = f.type === 'rating' && v ? Number(v) : v;
+    } else if (f.type === 'multi'){
+      const vals = [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(e => e.value);
+      const o = document.querySelector(`[data-other="${name}"]`);
+      out[name] = vals.map(v => v === '기타' && o && o.value.trim() ? '기타: ' + o.value.trim() : v).join(', ');
+    } else {
+      const el = document.querySelector(`[name="${name}"]`);
+      out[name] = el ? el.value.trim() : '';
+    }
+  });
+  return out;
+}
+
+let saveTimer, startedAt = Date.now();
+function saveDraft(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    try {
+      const d = {startedAt, v:{}, o:{}};
+      document.querySelectorAll('#form input, #form textarea').forEach(el => {
+        if (el.dataset.other){ d.o[el.dataset.other] = el.value; return; }
+        if (!el.name) return;
+        if (el.type === 'radio'){ if (el.checked) d.v[el.name] = el.value; }
+        else if (el.type === 'checkbox'){ if (el.checked) (d.v[el.name] = d.v[el.name] || []).push(el.value); }
+        else if (el.value) d.v[el.name] = el.value;
+      });
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(d));
+      const t = new Date(); $('#savedTxt').textContent = `임시저장 ${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')}`;
+    } catch(e){}
+  }, 400);
+}
+function loadDraft(){
+  try {
+    const d = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null'); if (!d) return;
+    if (d.startedAt) startedAt = d.startedAt;
+    Object.entries(d.v || {}).forEach(([name, val]) => {
+      document.querySelectorAll(`[name="${name}"]`).forEach(el => {
+        if (el.type === 'radio') el.checked = el.value === val;
+        else if (el.type === 'checkbox') el.checked = Array.isArray(val) && val.includes(el.value);
+        else el.value = val;
+      });
+    });
+    Object.entries(d.o || {}).forEach(([name, val]) => { const el = document.querySelector(`[data-other="${name}"]`); if (el) el.value = val; });
+    $('#savedTxt').textContent = '임시저장 불러옴';
+  } catch(e){}
+}
+
+function refreshUI(){
+  const data = collect();
+  let total = 0, done = 0; const secDone = {};
+  FIELDS.forEach((f,i) => {
+    if (!f.required) return;
+    total++; const ok = data['f'+i] !== '' && data['f'+i] != null;
+    if (ok) done++;
+    const host = document.querySelector(`[data-name="f${i}"]`);
+    const sec = host && host.closest('section, .card') && sectionOf(host);
+    if (sec){ secDone[sec] = secDone[sec] || [0,0]; secDone[sec][1]++; if (ok) secDone[sec][0]++; }
+    if (ok && host) host.classList.remove('missing');
+  });
+  const pct = total ? Math.round(done/total*100) : 0;
+  $('#progTxt').textContent = `${done}/${total}`; $('#progBar').style.width = pct + '%';
+  document.querySelectorAll('#nav a').forEach(a => { const s = secDone[a.dataset.sec]; a.classList.toggle('done', !!s && s[0] === s[1]); });
+  // 기타 입력칸
+  document.querySelectorAll('[data-other]').forEach(o => {
+    const on = !!document.querySelector(`input[name="${o.dataset.other}"][value="기타"]:checked`);
+    o.classList.toggle('on', on);
+  });
+  // 낮은 평정 시 의견 유도
+  document.querySelectorAll('textarea[data-nudge]').forEach(t => {
+    const box = t.closest('.item, .inst-box'); const r = box && box.querySelectorAll('.rating input:checked');
+    const low = r && [...r].some(x => Number(x.value) <= 2) && t.previousElementSibling && t.previousElementSibling.classList.contains('rwrap');
+    const n = t.nextElementSibling; if (n && n.classList.contains('nudge')) n.classList.toggle('on', !!low && !t.value.trim());
+  });
+}
+const SEC_ORDER = ['info','p1','p2','p3','p4'];
+function sectionOf(el){
+  // 카드는 섹션 뒤에 형제로 배치되므로, 바로 앞에 있는 섹션 id를 찾음
+  let n = el.closest('.card, details') || el;
+  while (n && n.previousElementSibling){ n = n.previousElementSibling; if (n.matches && n.matches('section.part')) return n.id; }
+  return null;
+}
+
+/* =====================================================================
+   제출
+   ===================================================================== */
+function validate(){
+  const data = collect(); const miss = [];
+  FIELDS.forEach((f,i) => {
+    if (!f.required) return;
+    const host = document.querySelector(`[data-name="f${i}"]`);
+    const ok = data['f'+i] !== '' && data['f'+i] != null;
+    if (!ok){ miss.push({f, host}); host && host.classList.add('missing'); }
+  });
+  return {data, miss};
+}
+
+function submit(){
+  const {data, miss} = validate();
+  const eb = $('#errBox');
+  if (miss.length){
+    eb.innerHTML = `평정하지 않은 문항이 <b>${miss.length}개</b> 있습니다. 빨간색으로 표시된 문항을 확인해 주십시오. <a href="#" id="goMiss">첫 번째 미응답 문항으로 이동 →</a>`;
+    eb.classList.add('on');
+    $('#goMiss').onclick = e => { e.preventDefault(); const h = miss[0].host; const d = h.closest('details'); if (d) d.open = true; h.scrollIntoView({behavior:'smooth', block:'center'}); };
+    return;
+  }
+  eb.classList.remove('on');
+  const btn = $('#submitBtn'); btn.disabled = true; btn.textContent = '제출 중…';
+  const payload = {
+    responseId: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2)),
+    headers: ['응답ID','소요시간(분)'].concat(FIELDS.map(f => f.key)),
+    values: [],
+  };
+  payload.values = [payload.responseId, Math.round((Date.now()-startedAt)/60000)].concat(FIELDS.map((f,i) => data['f'+i]));
+
+  const ok = () => {
+    try { localStorage.removeItem(DRAFT_KEY); } catch(e){}
+    $('#app').style.display = 'none'; $('#done').style.display = 'block';
+    $('#doneId').textContent = '응답 번호: ' + payload.responseId.slice(0,8);
+    window.scrollTo(0,0);
+  };
+  const fail = err => {
+    btn.disabled = false; btn.textContent = '응답 제출하기';
+    eb.innerHTML = '제출 중 오류가 발생했습니다. 작성하신 내용은 임시저장되어 있으니 잠시 후 다시 시도해 주십시오.<br><small>' + esc(String(err && err.message || err)) + '</small>';
+    eb.classList.add('on');
+  };
+
+  if (window.google && google.script && google.script.run){
+    google.script.run.withSuccessHandler(r => r && r.ok ? ok() : fail(r && r.error)).withFailureHandler(fail).submitResponse(payload);
+  } else if (SCRIPT_URL){
+    fetch(SCRIPT_URL, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(payload)})
+      .then(r => r.json()).then(r => r.ok ? ok() : fail(r.error)).catch(fail);
+  } else if (window.__TEST_SUBMIT__){
+    window.__TEST_SUBMIT__(payload).then(ok, fail);
+  } else {
+    fail('전송 주소가 설정되지 않았습니다(SCRIPT_URL).');
+  }
+}
+
+/* ===================================================================== */
+build();
+loadDraft();
+refreshUI();
+document.getElementById('form').addEventListener('input', () => { refreshUI(); saveDraft(); });
+document.getElementById('form').addEventListener('change', () => { refreshUI(); saveDraft(); });
+$('#submitBtn').addEventListener('click', submit);
+$('#resetBtn').addEventListener('click', () => {
+  if (!confirm('작성하신 내용을 모두 지울까요? 되돌릴 수 없습니다.')) return;
+  try { localStorage.removeItem(DRAFT_KEY); } catch(e){}
+  location.reload();
+});
+</script>
+</body>
+</html>
