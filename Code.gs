@@ -14,6 +14,14 @@ const RESPONSE_SHEET = '응답';
 const SUMMARY_SHEET = '집계';
 const COMMENT_SHEET = '의견 모음';
 const MAX_TEXT = 5000;
+// 응답을 저장할 스프레드시트 ID (주소의 /d/ 와 /edit 사이)
+const SHEET_ID = '1QIK96y8hgJZNXX2F4rpHfeyW3xHaKbLPOoEkcm9ag8U';
+
+// 시트에서 '확장 프로그램 > Apps Script'로 만든 경우와
+// script.google.com에서 따로 만든 경우 모두 동작하도록 ID로 엽니다.
+function ss_() {
+  return SpreadsheetApp.openById(SHEET_ID);
+}
 
 /* ---------------- 설문 페이지 ---------------- */
 function doGet() {
@@ -88,7 +96,7 @@ function doPost(e) {
 }
 
 function getResponseSheet_() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = ss_();
   return ss.getSheetByName(RESPONSE_SHEET) || ss.insertSheet(RESPONSE_SHEET, 0);
 }
 
@@ -120,7 +128,7 @@ function onOpen() {
 function buildReports() {
   buildSummary_();
   buildComments_();
-  SpreadsheetApp.getActiveSpreadsheet().toast('집계표와 의견 모음을 갱신했습니다.', '설문 집계', 5);
+  try { ss_().toast('집계표와 의견 모음을 갱신했습니다.', '설문 집계', 5); } catch (e) {}
 }
 
 /**
@@ -129,7 +137,7 @@ function buildReports() {
  * CVR(내용타당도 비율) = (4·5점 응답 수 − N/2) ÷ (N/2)
  */
 function buildSummary_() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = ss_();
   const src = ss.getSheetByName(RESPONSE_SHEET);
   if (!src || src.getLastColumn() === 0) throw new Error('아직 응답이 없습니다.');
   const headers = src.getRange(1, 1, 1, src.getLastColumn()).getValues()[0].map(String);
@@ -200,7 +208,7 @@ function buildSummary_() {
  * (회의 자료용. 응답이 추가되면 메뉴에서 다시 실행하세요.)
  */
 function buildComments_() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = ss_();
   const src = ss.getSheetByName(RESPONSE_SHEET);
   const data = src.getDataRange().getValues();
   const headers = data[0].map(String);
