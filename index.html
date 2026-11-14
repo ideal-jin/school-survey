@@ -166,10 +166,24 @@ input[type=text]{width:100%;border:1.5px solid var(--line);border-radius:10px;pa
 .errbox a{color:var(--err);font-weight:700}
 .done-screen{display:none;max-width:640px;margin:60px auto;text-align:center;padding:0 16px}
 .done-screen .ok{width:64px;height:64px;border-radius:50%;background:#dff1ec;color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 18px}
+/* paging */
+.page{display:none}.page.on{display:block}
+body.intro .topbar{display:none}
+body:not(.intro) .hero{display:none}
+.start-row{margin-top:26px}
+.btn.start{background:#fff;color:var(--brand);font-size:18px;padding:15px 40px}
+.btn.start:hover{background:#eef4fa}
+.pager{display:flex;justify-content:space-between;gap:10px;margin:8px 0 32px}
+.pager .btn{min-width:130px}
+.pager .sp{flex:1}
+.pmsg{display:none;color:var(--err);font-size:14px;text-align:right;margin:-20px 0 28px}
+.pmsg.on{display:block}
+.nav a.cur{background:var(--brand);color:#fff}
+.stepinfo{font-size:13px;color:var(--muted);margin:22px 0 -14px}
 footer{color:var(--muted);font-size:13px;text-align:center;padding:24px 0 48px}
 </style>
 </head>
-<body>
+<body class="intro">
 
 <div id="app">
 <div class="topbar">
@@ -200,7 +214,9 @@ footer{color:var(--muted);font-size:13px;text-align:center;padding:24px 0 48px}
       <span>⏱ 약 25~30분 소요</span>
       <span>💾 작성 내용은 이 브라우저에 자동 임시저장됩니다</span>
       <span>✍️ 평정 문항은 필수, 의견 문항은 선택입니다</span>
+      <span>📄 기본정보 → Ⅰ → Ⅱ → Ⅲ → Ⅳ 순서로 5개 화면</span>
     </div>
+    <div class="start-row"><button class="btn start" id="startBtn" type="button">응답 시작하기 →</button></div>
   </div>
 </header>
 
@@ -455,20 +471,34 @@ function build(){
   h += part('p4','Ⅳ','종합 의견','');
   h += `<div class="card"><p class="q-h"><span class="qn">[문항 Ⅳ-1]</span>연구의 완성도를 높이기 위해 추가로 검토하거나 반영되어야 할 사항, 그 밖의 의견이 있으시면 자유롭게 작성해 주십시오.</p>${textHTML('Ⅳ-1 종합 의견','의견을 자유롭게 작성해 주십시오.',true)}</div>`;
 
-  h += `<div class="card submit-card"><p style="margin:0 0 14px">모든 평정 문항에 응답하셨는지 확인하신 후 제출해 주십시오.</p>
+  h += `<div class="card submit-card"><p style="margin:0 0 14px">작성을 마치셨으면 제출해 주십시오. 제출 후에는 수정할 수 없습니다.</p>
         <button class="btn" id="submitBtn" type="button">응답 제출하기</button>
         <div class="errbox" id="errBox"></div>
         <p class="hint" style="margin-top:14px">제출 전까지 작성 내용은 이 브라우저에 임시저장됩니다. &nbsp;<button type="button" class="btn ghost" id="resetBtn">작성 내용 모두 지우기</button></p></div>`;
 
+  h += '</div>';
   F.innerHTML = h;
+  // 각 화면 아래 이전/다음 버튼
+  F.querySelectorAll('.page').forEach(pg => {
+    const k = +pg.dataset.step; const last = k === PAGES.length;
+    const div = document.createElement('div'); div.className = 'pager';
+    div.innerHTML = `<button type="button" class="btn ghost" data-go="${k-1}">← ${k===1?'처음으로':'이전'}</button><span class="sp"></span>` +
+      (last ? '' : `<button type="button" class="btn" data-go="${k+1}">다음 →</button>`);
+    pg.appendChild(div);
+    const m = document.createElement('p'); m.className = 'pmsg'; pg.appendChild(m);
+  });
 
   /* nav */
-  $('#nav').innerHTML = [['info','기본정보'],['p1','Ⅰ. 기본 구조'],['p2','Ⅱ. 통합 모형'],['p3','Ⅲ. 개선과제'],['p4','Ⅳ. 종합 의견']]
-    .map(([id,t]) => `<a href="#${id}" data-sec="${id}">${t}</a>`).join('');
+  $('#nav').innerHTML = PAGES.map(([id,t],k) => `<a href="#" data-step="${k+1}">${t}</a>`).join('');
 }
 
+let pageOpen = false;
+const PAGES = [['info','기본정보'],['p1','Ⅰ. 기본 구조'],['p2','Ⅱ. 통합 모형'],['p3','Ⅲ. 개선과제'],['p4','Ⅳ. 종합 의견']];
 function part(id, num, title, lead){
-  return `<section class="part" id="${id}"><div class="part-h">${num?`<span class="num">${num}.</span>`:''}<h2>${title}</h2></div>${lead?`<p class="lead">${lead}</p>`:''}</section>`;
+  const k = PAGES.findIndex(x => x[0] === id);
+  const open = (pageOpen ? '</div>' : '') + `<div class="page" data-step="${k+1}"><p class="stepinfo">${k+1} / ${PAGES.length} 단계</p>`;
+  pageOpen = true;
+  return open + `<section class="part" id="${id}"><div class="part-h">${num?`<span class="num">${num}.</span>`:''}<h2>${title}</h2></div>${lead?`<p class="lead">${lead}</p>`:''}</section>`;
 }
 function choiceField(label, type, required, opts){
   const name = reg('기본정보: ' + label.replace(/\s*\(.*\)/,''), type, required);
@@ -577,13 +607,13 @@ function refreshUI(){
     total++; const ok = data['f'+i] !== '' && data['f'+i] != null;
     if (ok) done++;
     const host = document.querySelector(`[data-name="f${i}"]`);
-    const sec = host && host.closest('section, .card') && sectionOf(host);
+    const pg = host && host.closest('.page'); const sec = pg && pg.dataset.step;
     if (sec){ secDone[sec] = secDone[sec] || [0,0]; secDone[sec][1]++; if (ok) secDone[sec][0]++; }
     if (ok && host) host.classList.remove('missing');
   });
   const pct = total ? Math.round(done/total*100) : 0;
   $('#progTxt').textContent = `${done}/${total}`; $('#progBar').style.width = pct + '%';
-  document.querySelectorAll('#nav a').forEach(a => { const s = secDone[a.dataset.sec]; a.classList.toggle('done', !!s && s[0] === s[1]); });
+  document.querySelectorAll('#nav a').forEach(a => { const s = secDone[a.dataset.step]; a.classList.toggle('done', !!s && s[0] === s[1]); });
   // 기타 입력칸
   document.querySelectorAll('[data-other]').forEach(o => {
     const on = !!document.querySelector(`input[name="${o.dataset.other}"][value="기타"]:checked`);
@@ -596,12 +626,41 @@ function refreshUI(){
     const n = t.nextElementSibling; if (n && n.classList.contains('nudge')) n.classList.toggle('on', !!low && !t.value.trim());
   });
 }
-const SEC_ORDER = ['info','p1','p2','p3','p4'];
-function sectionOf(el){
-  // 카드는 섹션 뒤에 형제로 배치되므로, 바로 앞에 있는 섹션 id를 찾음
-  let n = el.closest('.card, details') || el;
-  while (n && n.previousElementSibling){ n = n.previousElementSibling; if (n.matches && n.matches('section.part')) return n.id; }
-  return null;
+/* ---------------- 화면 이동 ---------------- */
+let step = 0;
+function showStep(k, scrollTo){
+  step = Math.max(0, Math.min(PAGES.length, k));
+  document.body.classList.toggle('intro', step === 0);
+  document.querySelectorAll('.page').forEach(pg => pg.classList.toggle('on', +pg.dataset.step === step));
+  document.querySelectorAll('#nav a').forEach(a => a.classList.toggle('cur', +a.dataset.step === step));
+  document.querySelectorAll('.pmsg').forEach(m => m.classList.remove('on'));
+  const cur = document.querySelector(`#nav a[data-step="${step}"]`); if (cur) cur.scrollIntoView({block:'nearest', inline:'center'});
+  if (scrollTo){ const d = scrollTo.closest('details'); if (d) d.open = true; scrollTo.scrollIntoView({block:'center'}); }
+  else window.scrollTo(0, 0);
+  try { localStorage.setItem(DRAFT_KEY + ':step', String(step)); } catch(e){}
+}
+function missingIn(k){
+  const data = collect(); const miss = [];
+  FIELDS.forEach((f,i) => {
+    if (!f.required) return;
+    const host = document.querySelector(`[data-name="f${i}"]`);
+    if (!host || +host.closest('.page').dataset.step !== k) return;
+    if (data['f'+i] === '' || data['f'+i] == null){ host.classList.add('missing'); miss.push(host); }
+  });
+  return miss;
+}
+function goTo(k){
+  if (k > step && step >= 1){
+    const miss = missingIn(step);
+    if (miss.length){
+      const pg = document.querySelector(`.page[data-step="${step}"]`); const m = pg.querySelector('.pmsg');
+      m.textContent = `이 화면에 아직 선택하지 않은 필수 문항이 ${miss.length}개 있습니다. 빨간색으로 표시된 문항을 확인해 주십시오.`;
+      m.classList.add('on');
+      miss[0].scrollIntoView({behavior:'smooth', block:'center'});
+      return;
+    }
+  }
+  showStep(k);
 }
 
 /* =====================================================================
@@ -624,7 +683,7 @@ function submit(){
   if (miss.length){
     eb.innerHTML = `평정하지 않은 문항이 <b>${miss.length}개</b> 있습니다. 빨간색으로 표시된 문항을 확인해 주십시오. <a href="#" id="goMiss">첫 번째 미응답 문항으로 이동 →</a>`;
     eb.classList.add('on');
-    $('#goMiss').onclick = e => { e.preventDefault(); const h = miss[0].host; const d = h.closest('details'); if (d) d.open = true; h.scrollIntoView({behavior:'smooth', block:'center'}); };
+    $('#goMiss').onclick = e => { e.preventDefault(); const h = miss[0].host; showStep(+h.closest('.page').dataset.step, h); };
     return;
   }
   eb.classList.remove('on');
@@ -637,7 +696,7 @@ function submit(){
   payload.values = [payload.responseId, Math.round((Date.now()-startedAt)/60000)].concat(FIELDS.map((f,i) => data['f'+i]));
 
   const ok = () => {
-    try { localStorage.removeItem(DRAFT_KEY); } catch(e){}
+    try { localStorage.removeItem(DRAFT_KEY); localStorage.removeItem(DRAFT_KEY + ':step'); } catch(e){}
     $('#app').style.display = 'none'; $('#done').style.display = 'block';
     $('#doneId').textContent = '응답 번호: ' + payload.responseId.slice(0,8);
     window.scrollTo(0,0);
@@ -667,9 +726,13 @@ refreshUI();
 document.getElementById('form').addEventListener('input', () => { refreshUI(); saveDraft(); });
 document.getElementById('form').addEventListener('change', () => { refreshUI(); saveDraft(); });
 $('#submitBtn').addEventListener('click', submit);
+$('#startBtn').addEventListener('click', () => showStep(1));
+document.getElementById('form').addEventListener('click', e => { const b = e.target.closest('[data-go]'); if (b) goTo(+b.dataset.go); });
+$('#nav').addEventListener('click', e => { const a = e.target.closest('a[data-step]'); if (!a) return; e.preventDefault(); showStep(+a.dataset.step); });
+(() => { let k = 0; try { k = +(localStorage.getItem(DRAFT_KEY + ':step') || 0); } catch(e){} showStep(k || 0); })();
 $('#resetBtn').addEventListener('click', () => {
   if (!confirm('작성하신 내용을 모두 지울까요? 되돌릴 수 없습니다.')) return;
-  try { localStorage.removeItem(DRAFT_KEY); } catch(e){}
+  try { localStorage.removeItem(DRAFT_KEY); localStorage.removeItem(DRAFT_KEY + ':step'); } catch(e){}
   location.reload();
 });
 </script>
